@@ -1,0 +1,105 @@
+from tkinter import *
+from tkinter import messagebox
+
+# Initialize the main window
+window = Tk()
+window.title("Colorful GUI Calculator")
+window.geometry("600x400")
+window.configure(bg="#E6E6FA")  # Light lavender background
+
+# Define operations
+def add():
+    try:
+        n1 = int(text1.get("1.0", "end-1c"))
+        n2 = int(text2.get("1.0", "end-1c"))
+        result_label.config(text=f"Result: {n1 + n2}")
+    except ValueError:
+        messagebox.showerror("Input Error", "Please enter valid numbers.")
+
+def sub():
+    try:
+        n1 = int(text1.get("1.0", "end-1c"))
+        n2 = int(text2.get("1.0", "end-1c"))
+        result_label.config(text=f"Result: {n1 - n2}")
+    except ValueError:
+        messagebox.showerror("Input Error", "Please enter valid numbers.")
+
+def mul():
+    try:
+        n1 = int(text1.get("1.0", "end-1c"))
+        n2 = int(text2.get("1.0", "end-1c"))
+        result_label.config(text=f"Result: {n1 * n2}")
+    except ValueError:
+        messagebox.showerror("Input Error", "Please enter valid numbers.")
+
+def div():
+    try:
+        n1 = int(text1.get("1.0", "end-1c"))
+        n2 = int(text2.get("1.0", "end-1c"))
+        if n2 == 0:
+            raise ZeroDivisionError
+        result_label.config(text=f"Result: {n1 / n2}")
+    except ZeroDivisionError:
+        messagebox.showerror("Math Error", "Cannot divide by zero.")
+    except ValueError:
+        messagebox.showerror("Input Error", "Please enter valid numbers.")
+
+# Button hover effects
+def on_enter(e):
+    e.widget['background'] = '#FF69B4'  # Hot pink on hover
+
+def on_leave(e):
+    e.widget['background'] = '#FFB6C1'  # Light pink when not hovering
+
+# Create widgets with enhanced styling
+label1 = Label(window, text="First Number:", font=("Comic Sans MS", 14, "bold"), 
+               bg="#E6E6FA", fg="#4B0082")  # Indigo text
+text1 = Text(window, height=1, width=20, font=("Arial", 12),
+             bg="#F0FFF0", fg="#000080")  # Honeydew background, navy text
+
+label2 = Label(window, text="Second Number:", font=("Comic Sans MS", 14, "bold"),
+               bg="#E6E6FA", fg="#4B0082")
+text2 = Text(window, height=1, width=20, font=("Arial", 12),
+             bg="#F0FFF0", fg="#000080")
+
+result_label = Label(window, text="Result: ", font=("Comic Sans MS", 16, "bold"),
+                    bg="#E6E6FA", fg="#FF1493")  # Deep pink text
+
+button_style = {
+    'font': ("Comic Sans MS", 12, "bold"),
+    'width': 15,
+    'bg': '#FFB6C1',  # Light pink
+    'fg': '#800080',  # Purple text
+    'relief': 'raised',
+    'borderwidth': 3
+}
+
+button1 = Button(window, text="Add", command=add, **button_style)
+button2 = Button(window, text="Subtract", command=sub, **button_style)
+button3 = Button(window, text="Multiply", command=mul, **button_style)
+button4 = Button(window, text="Divide", command=div, **button_style)
+
+# Bind hover events to buttons
+for button in (button1, button2, button3, button4):
+    button.bind("<Enter>", on_enter)
+    button.bind("<Leave>", on_leave)
+
+# Layout using grid with added padding
+label1.grid(row=0, column=0, padx=20, pady=20, sticky=W)
+text1.grid(row=0, column=1, padx=20, pady=20)
+label2.grid(row=1, column=0, padx=20, pady=20, sticky=W)
+text2.grid(row=1, column=1, padx=20, pady=20)
+button1.grid(row=2, column=0, padx=20, pady=20)
+button2.grid(row=2, column=1, padx=20, pady=20)
+button3.grid(row=3, column=0, padx=20, pady=20)
+button4.grid(row=3, column=1, padx=20, pady=20)
+result_label.grid(row=4, column=0, columnspan=2, pady=30)
+
+# Center all elements
+for i in range(5):
+    window.grid_rowconfigure(i, weight=1)
+for i in range(2):
+    window.grid_columnconfigure(i, weight=1)
+
+# Start the main loop
+window.mainloop()
